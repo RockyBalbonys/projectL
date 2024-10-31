@@ -1,4 +1,4 @@
-"# PROJECT L"
+# PROJECT L
 
 ==== PROTOTYPING PHASE ====
 
