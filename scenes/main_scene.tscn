@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=4 uid="uid://cusu357g48mo4"]
+
+[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_3is3x"]
+[ext_resource type="Texture2D" uid="uid://ck2yp6sl1idje" path="res://textures/player/player.png" id="1_dcapn"]
+[ext_resource type="Texture2D" uid="uid://oy1wvt4ntwun" path="res://textures/solids/block.png" id="2_6nem8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3ei3g"]
+size = Vector2(64, 64)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_al1if"]
+texture = ExtResource("2_6nem8")
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_dx4d2"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_al1if")
+
+[node name="Scene" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+script = ExtResource("1_3is3x")
+
+[node name="Player" type="Sprite2D" parent="CharacterBody2D"]
+texture_filter = 1
+scale = Vector2(4, 4)
+texture = ExtResource("1_dcapn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("RectangleShape2D_3ei3g")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+scale = Vector2(4, 4)
+tile_map_data = PackedByteArray("AAD6/wIAAAAAAAAAAAD7/wIAAAAAAAAAAAD8/wIAAAAAAAAAAAD9/wIAAAAAAAAAAAD+/wIAAAAAAAAAAAD//wIAAAAAAAAAAAAAAAIAAAAAAAAAAAABAAIAAAAAAAAAAAACAAIAAAAAAAAAAAADAAIAAAAAAAAAAAAEAAIAAAAAAAAAAAAFAAIAAAAAAAAAAAAGAAIAAAAAAAAAAAAHAAIAAAAAAAAAAAD5/wIAAAAAAAAAAAD4/wIAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_dx4d2")
