@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=4 uid="uid://c0tfc7tjjtq3a"]
+
+[ext_resource type="Texture2D" uid="uid://oy1wvt4ntwun" path="res://textures/solids/block.png" id="1_q3mk8"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_38gei"]
+texture = ExtResource("1_q3mk8")
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_y7h6i"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_38gei")
+
+[node name="Tilemap" type="Node2D"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+scale = Vector2(4, 4)
+tile_map_data = PackedByteArray("AAD6/wIAAAAAAAAAAAD7/wIAAAAAAAAAAAD8/wIAAAAAAAAAAAD9/wIAAAAAAAAAAAD+/wIAAAAAAAAAAAD//wIAAAAAAAAAAAAAAAIAAAAAAAAAAAABAAIAAAAAAAAAAAACAAIAAAAAAAAAAAADAAIAAAAAAAAAAAAEAAIAAAAAAAAAAAAFAAIAAAAAAAAAAAAGAAIAAAAAAAAAAAAHAAIAAAAAAAAAAAD5/wIAAAAAAAAAAAD4/wIAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_y7h6i")
