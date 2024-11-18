@@ -3,21 +3,30 @@
 ==== PROTOTYPING PHASE ====
 
 to do list:
-
-
 Movements:
 - left/right /
 - jump /
 - dash /
-- attack
-- rewrite the code, puro ifelse
+- crouch
+
 
 
 Assets:
 - player animation
-	- left right / 
-	 (gumawa ng sprite na papuntang left)
-	- jump animation
-	- dash animation
+	- crouch
+	- dash
+	- jump up/down animation
 
-- simple platform blocks /
+- simple platform blocks 
+- add platforms and obstacles
+
+- simple enemy
+- gui
+- restart button
+
+
+input names:
+- left
+- right
+- jump
+- dash
