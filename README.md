@@ -6,16 +6,18 @@ to do list:
 
 
 Movements:
-- left/right
-- jump
-- dash
+- left/right /
+- jump /
+- dash /
+- attack
+- rewrite the code, puro ifelse
 
 
 Assets:
 - player animation
-	- left right 
+	- left right / 
+	 (gumawa ng sprite na papuntang left)
 	- jump animation
 	- dash animation
 
-- simple platform blocks
-
+- simple platform blocks /

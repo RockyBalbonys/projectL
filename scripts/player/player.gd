@@ -1,57 +1,79 @@
 extends CharacterBody2D
 
-const gravity = 800
-var jump_strength = 600
-var speed = 400
-
-# Checks if the dash cooldown is over
-var dash_cooldown_over = true
-
-# Boolean for checking if the player is facing left or not
-var left = false
-
-func _process(delta: float) -> void:
-	pass
+const gravity = 400
+var dash_speed = 500
+var jump_strength = 200
+var speed = 100
+var is_dashing = false 
+var can_dash = true
+var is_facing_left = false
+var is_jumping = false
 
 func _physics_process(delta: float) -> void:
+	
 	get_input(delta)
 	move_and_slide()
+	print($AnimatedSprite2D.animation)
 
 func get_input(delta: float):
-	# Gets rid of acceleration
+	if is_dashing:
+		return  # Skip normal movement during dash
+
+	var direction = Input.get_axis("left", "right")
 	velocity.x = 0
+	if is_on_floor():
+		if is_facing_left and !direction:
+			$AnimatedSprite2D.play("idle_left")
+		elif !is_facing_left and !direction:
+			$AnimatedSprite2D.play("idle_right")
 	
-	if Input.is_action_pressed("jump") and is_on_floor():
-		velocity.y -= jump_strength
+	if direction:
+		velocity.x = direction * speed
+		if velocity.x > 0 and is_on_floor():
+			$AnimatedSprite2D.play("walk_right")
+			is_facing_left = false
+		elif velocity.x < 0 and is_on_floor():
+			$AnimatedSprite2D.play("walk_left")
+			is_facing_left = true
 
-	if Input.is_action_pressed("left"):
-		if velocity.x > -400:
-			velocity.x -= speed
-			left = true
-	elif Input.is_action_pressed("right"):
-		if velocity.x < 400:
-			velocity.x += speed
-			left = false
+	# Jump
+	if is_on_floor() and Input.is_action_pressed("jump"):
+			jump()
+			
 
-	if Input.is_action_just_pressed("dash"):
-		dash()
 
 	# Gravity
 	if not is_on_floor():
 		velocity.y += gravity * delta
+		
+	if Input.is_action_just_pressed("dash"):
+		dash()
+
+func jump():
+	is_dashing = false
+	is_jumping = true
+	velocity.y -= jump_strength
+	$AnimatedSprite2D.play("jump_right")
+	print("jumping")
 
 func dash():
-	if left:
-		if dash_cooldown_over == false:
-			return
-		velocity.x -= 2000 * 6
-		dash_cooldown_over = false
-		await get_tree().create_timer(0.5).timeout
-		dash_cooldown_over = true
-	else:
-		if dash_cooldown_over == false:
-			return
-		velocity.x += 2000 * 6
-		dash_cooldown_over = false
-		await get_tree().create_timer(0.5).timeout
-		dash_cooldown_over = true
+	if can_dash:
+		is_dashing = true
+
+		# Apply dash speed
+		velocity.x = -dash_speed if is_facing_left else dash_speed
+		$AnimatedSprite2D.play("dash_left" if is_facing_left else "dash_right")
+		
+		# Start dash timer
+		$DashDuration.start(0.3)
+
+func _on_dash_duration_timeout() -> void:
+	is_dashing = false
+	can_dash = false
+	velocity.x = 0  # Stop horizontal movement after dash
+	$DashCooldown.start(1)
+	print("dash duration finished")
+
+func _on_dash_cooldown_timeout() -> void:
+	can_dash = true
+	print("dash cooldowned")
