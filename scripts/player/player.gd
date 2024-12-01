@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 const gravity = 500
 var dash_speed = 700
-var jump_strength = 250
+var jump_strength = 300
 var speed = 200
 var is_dashing = false 
 var can_dash = true
@@ -10,9 +10,13 @@ var is_facing_left = false
 var is_jumping = false
 var is_crouching = false
 var crouch_speed = 100
+var is_crawling = false
+
 
 func _physics_process(delta: float) -> void:
-	print($AnimatedSprite2D.frame)
+	print($AnimatedSprite2D.animation)
+	print("is_crouching: ", is_crouching)
+	print("is_crawling: ", is_crawling)
 	get_input(delta)
 	move_and_slide()
 
@@ -22,7 +26,7 @@ func get_input(delta: float):
 
 	var direction = Input.get_axis("left", "right")
 	velocity.x = 0
-	if is_on_floor():
+	if is_on_floor() and !is_crouching:
 		if is_facing_left and !direction:
 			$AnimatedSprite2D.play("idle_left")
 		elif !is_facing_left and !direction:
@@ -33,6 +37,7 @@ func get_input(delta: float):
 			velocity.x = direction * speed
 		elif is_crouching:
 			velocity.x = direction * crouch_speed
+			crawl()
 		if velocity.x > 0 and is_on_floor():
 			$AnimatedSprite2D.play("walk_right")
 			is_facing_left = false
@@ -54,9 +59,13 @@ func get_input(delta: float):
 	if Input.is_action_just_pressed("dash"):
 		dash()
 	if Input.is_action_pressed("crouch"):
+		#if direction:
+			#crawl()
+		#else:
+			#crouch()
 		crouch()
-	elif Input.is_action_just_released("crouch"):
-		is_crouching = false
+	if Input.is_action_just_released("crouch"):
+		stop_crouching()
 	if Input.is_action_pressed("jump"):
 		jump()
 
@@ -77,10 +86,27 @@ func jump():
 func crouch():
 	if is_on_floor():
 		is_crouching = true
-		$AnimatedSprite2D.play("crouch_left" if is_facing_left and velocity.x < 0 else "crouch_right")
-
+		is_crawling = false
+		if is_crouching and !is_crawling:
+			if is_facing_left:
+				$AnimatedSprite2D.play("crouch_left")
+			elif !is_facing_left:
+				$AnimatedSprite2D.play("crouch_right")
+func crawl():
+	if is_on_floor():
+		is_crawling = true
+		is_crouching = true
+		if is_facing_left:
+			if $AnimatedSprite2D.animation != "crawl_left" or !$AnimatedSprite2D.is_playing():
+				$AnimatedSprite2D.play("crawl_left")
+		else:
+			if $AnimatedSprite2D.animation != "crawl_right" or !$AnimatedSprite2D.is_playing():
+				$AnimatedSprite2D.play("crawl_right")
+func stop_crouching():
+	is_crawling = false
+	is_crouching = false
 func dash():
-	if can_dash:
+	if can_dash and !is_crouching:
 		is_dashing = true
 		velocity.y = 0
 		velocity.x = -dash_speed if is_facing_left else dash_speed
