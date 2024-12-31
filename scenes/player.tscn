@@ -1,0 +1,146 @@
+[gd_scene load_steps=17 format=3 uid="uid://bqneglmxrnkxb"]
+
+[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_0paou"]
+[ext_resource type="Texture2D" uid="uid://b7w6m2ylkhf60" path="res://textures/player/Player_Sprite_Sheet.png" id="2_ylbwn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3xjr1"]
+size = Vector2(31, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sm12e"]
+atlas = ExtResource("2_ylbwn")
+region = Rect2(192, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_teltr"]
+atlas = ExtResource("2_ylbwn")
+region = Rect2(128, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j87bd"]
+atlas = ExtResource("2_ylbwn")
+region = Rect2(64, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vmf1k"]
+atlas = ExtResource("2_ylbwn")
+region = Rect2(0, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rwnng"]
+atlas = ExtResource("2_ylbwn")
+region = Rect2(320, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_87qr5"]
+atlas = ExtResource("2_ylbwn")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j6ule"]
+atlas = ExtResource("2_ylbwn")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r8pcx"]
+atlas = ExtResource("2_ylbwn")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rjum7"]
+atlas = ExtResource("2_ylbwn")
+region = Rect2(256, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4uw46"]
+atlas = ExtResource("2_ylbwn")
+region = Rect2(320, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uvnfx"]
+atlas = ExtResource("2_ylbwn")
+region = Rect2(384, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4t0rn"]
+atlas = ExtResource("2_ylbwn")
+region = Rect2(256, 128, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tslwn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sm12e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_teltr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j87bd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vmf1k")
+}],
+"loop": true,
+"name": &"dash",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rwnng")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_87qr5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j6ule")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r8pcx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rjum7")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4uw46")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uvnfx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4t0rn")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10.0
+}]
+
+[node name="Player" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+script = ExtResource("1_0paou")
+
+[node name="PlayerCollision" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(-0.5, -0.5)
+shape = SubResource("RectangleShape2D_3xjr1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
+sprite_frames = SubResource("SpriteFrames_tslwn")
+animation = &"walk"
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+offset = Vector2(0, -40)
+zoom = Vector2(1.5, 1.5)
+position_smoothing_enabled = true
+
+[node name="DashDuration" type="Timer" parent="CharacterBody2D"]
+wait_time = 0.3
+one_shot = true
+
+[node name="DashCooldown" type="Timer" parent="CharacterBody2D"]
+
+[connection signal="timeout" from="CharacterBody2D/DashDuration" to="CharacterBody2D" method="_on_dash_duration_timeout"]
+[connection signal="timeout" from="CharacterBody2D/DashCooldown" to="CharacterBody2D" method="_on_dash_cooldown_timeout"]
