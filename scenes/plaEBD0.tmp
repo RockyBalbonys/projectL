@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bqneglmxrnkxb"]
+[gd_scene load_steps=18 format=3 uid="uid://bqneglmxrnkxb"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_0paou"]
 [ext_resource type="Texture2D" uid="uid://b7w6m2ylkhf60" path="res://textures/player/Player_Sprite_Sheet.png" id="2_ylbwn"]
@@ -25,14 +25,6 @@ region = Rect2(0, 256, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_rwnng"]
 atlas = ExtResource("2_ylbwn")
 region = Rect2(320, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_lverb"]
-atlas = ExtResource("2_ylbwn")
-region = Rect2(256, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4qpj4"]
-atlas = ExtResource("2_ylbwn")
-region = Rect2(320, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_87qr5"]
 atlas = ExtResource("2_ylbwn")
@@ -91,17 +83,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lverb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4qpj4")
-}],
-"loop": true,
-"name": &"hurt",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_87qr5")
 }, {
 "duration": 1.0,
@@ -152,7 +133,7 @@ shape = SubResource("RectangleShape2D_3xjr1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
 sprite_frames = SubResource("SpriteFrames_tslwn")
-animation = &"hurt"
+animation = &"walk"
 
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
 offset = Vector2(0, -40)
@@ -164,7 +145,6 @@ wait_time = 0.3
 one_shot = true
 
 [node name="DashCooldown" type="Timer" parent="CharacterBody2D"]
-one_shot = true
 
 [node name="Hurtbox" type="Area2D" parent="CharacterBody2D"]
 collision_layer = 2
@@ -175,14 +155,9 @@ position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_gqfac")
 debug_color = Color(0, 0.645748, 0.253186, 0.42)
 
-[node name="HurtDuration" type="Timer" parent="CharacterBody2D"]
-one_shot = true
-
-[node name="InvincibilityDuration" type="Timer" parent="CharacterBody2D"]
-one_shot = true
+[node name="InvisibilityDuration" type="Timer" parent="CharacterBody2D"]
 
 [connection signal="timeout" from="CharacterBody2D/DashDuration" to="CharacterBody2D" method="_on_dash_duration_timeout"]
 [connection signal="timeout" from="CharacterBody2D/DashCooldown" to="CharacterBody2D" method="_on_dash_cooldown_timeout"]
 [connection signal="area_entered" from="CharacterBody2D/Hurtbox" to="CharacterBody2D" method="_on_hurtbox_area_entered"]
-[connection signal="timeout" from="CharacterBody2D/HurtDuration" to="CharacterBody2D" method="_on_hurt_duration_timeout"]
-[connection signal="timeout" from="CharacterBody2D/InvincibilityDuration" to="CharacterBody2D" method="_on_invincibility_duration_timeout"]
+[connection signal="timeout" from="CharacterBody2D/InvisibilityDuration" to="CharacterBody2D" method="_on_invisibility_duration_timeout"]

@@ -5,7 +5,13 @@ enum player_state {
 	walk,
 	jump,
 	fall,
-	dash
+	dash,
+	hurt
+}
+
+var stats = {
+	"max_hp": 100,
+	"damage": 10
 }
 
 var current_state = player_state.idle
@@ -15,6 +21,8 @@ var speed = 200
 var air_speed = 150  # Reduced speed while in the air
 var dash_speed = 550
 var can_dash = true
+var is_hurt = false
+var is_invincible = false
 
 func _physics_process(delta: float) -> void:
 	match current_state:
@@ -28,17 +36,17 @@ func _physics_process(delta: float) -> void:
 			handle_fall()
 		player_state.dash:
 			handle_dash()
+		player_state.hurt:
+			handle_hurt()
 
+
+	#print(current_state)
 	# Apply gravity
 	if !is_on_floor():
 		velocity.y += gravity * delta
 
 	# Apply movement
 	move_and_slide()
-
-	print("State: ", current_state)
-	print("is on floor: ", is_on_floor())
-	print($AnimatedSprite2D.flip_h)
 
 func handle_idle():
 	$AnimatedSprite2D.play("idle")
@@ -113,6 +121,15 @@ func handle_dash():
 	else:
 		velocity.x = dash_speed
 
+func handle_hurt():
+	if !is_hurt:
+		is_hurt = true
+		velocity.x = 0
+		$AnimatedSprite2D.play("hurt")
+		$HurtDuration.start(1)
+		print("hurt duration starts")
+
+
 func _on_dash_duration_timeout() -> void:
 	print("Dash timer finished")  # Logs when the timer ends
 	current_state = player_state.idle
@@ -123,3 +140,33 @@ func _on_dash_duration_timeout() -> void:
 func _on_dash_cooldown_timeout() -> void:
 	print("dash cooldowned")
 	can_dash = true
+
+
+func _on_hurtbox_area_entered(hurtbox) -> void:
+	var damage_amount = hurtbox.get_parent().damage
+	if !is_invincible:
+		if stats["max_hp"] <= 0:
+			die()
+		else:
+			stats["max_hp"] -= damage_amount
+			print(stats["max_hp"])
+			current_state = player_state.hurt
+	else:
+		pass
+
+func die():
+	queue_free()
+
+
+
+func _on_hurt_duration_timeout() -> void:
+	print("hurt duration finished")
+	is_hurt = false
+	is_invincible = true
+	current_state = player_state.idle
+	$InvincibilityDuration.start(2)
+
+
+func _on_invincibility_duration_timeout() -> void:
+	is_invincible = false
+	print("invincibility finished")
