@@ -1,10 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://cusu357g48mo4"]
+[gd_scene load_steps=4 format=3 uid="uid://cusu357g48mo4"]
 
 [ext_resource type="PackedScene" uid="uid://bqneglmxrnkxb" path="res://scenes/player.tscn" id="2_4ynb5"]
 [ext_resource type="PackedScene" uid="uid://c0tfc7tjjtq3a" path="res://scenes/tilemap.tscn" id="2_i7dqt"]
+[ext_resource type="PackedScene" uid="uid://dy7tcvfyuefqj" path="res://scenes/mobs/enemies/enemy_1.tscn" id="3_10oy0"]
 
 [node name="Scene" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("2_4ynb5")]
 
 [node name="Tilemap" parent="." instance=ExtResource("2_i7dqt")]
+
+[node name="enemy1" parent="." instance=ExtResource("3_10oy0")]
+position = Vector2(255, 116)

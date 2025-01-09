@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://dy7tcvfyuefqj"]
+
+[ext_resource type="Script" path="res://scripts/mobs/enemies/enemy1.gd" id="1_ex648"]
+[ext_resource type="Texture2D" uid="uid://cc5lu3kv8u6sv" path="res://textures/mobs/enemies/sample_enemy1.png" id="2_y0mpb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fyewv"]
+atlas = ExtResource("2_y0mpb")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f4r3w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fyewv")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mor4w"]
+radius = 9.0
+height = 24.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ye0k6"]
+size = Vector2(12, 15)
+
+[node name="enemy1" type="Node2D"]
+
+[node name="enemy1" type="CharacterBody2D" parent="."]
+collision_layer = 4
+script = ExtResource("1_ex648")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="enemy1"]
+position = Vector2(-2, -4)
+sprite_frames = SubResource("SpriteFrames_f4r3w")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy1"]
+shape = SubResource("CapsuleShape2D_mor4w")
+
+[node name="PatrolRay" type="RayCast2D" parent="enemy1"]
+target_position = Vector2(-14, 0)
+
+[node name="Hitbox" type="Area2D" parent="enemy1"]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy1/Hitbox"]
+shape = SubResource("RectangleShape2D_ye0k6")
