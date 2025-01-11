@@ -25,6 +25,7 @@ var is_hurt = false
 var is_invincible = false
 
 func _physics_process(delta: float) -> void:
+	
 	match current_state:
 		player_state.idle:
 			handle_idle()
@@ -47,6 +48,9 @@ func _physics_process(delta: float) -> void:
 
 	# Apply movement
 	move_and_slide()
+	
+	if Input.is_action_just_pressed("fire"):
+		fire()
 
 func handle_idle():
 	$AnimatedSprite2D.play("idle")
@@ -131,8 +135,9 @@ func handle_hurt():
 
 
 func _on_dash_duration_timeout() -> void:
-	print("Dash timer finished")  # Logs when the timer ends
-	current_state = player_state.idle
+	if !is_hurt:
+		print("Dash timer finished")  # Logs when the timer ends
+		current_state = player_state.idle
 	can_dash = false
 	$DashCooldown.start(3)
 
@@ -157,7 +162,17 @@ func _on_hurtbox_area_entered(hurtbox) -> void:
 func die():
 	queue_free()
 
-
+func fire():
+	var bullet_scene = preload("res://scenes/statics/bullet.tscn")
+	var bullet = bullet_scene.instantiate()
+	bullet.damage = stats["damage"]
+	bullet.position = global_position
+	if $AnimatedSprite2D.flip_h:
+		bullet.direction = Vector2(-1, 0)
+	else:
+		bullet.direction = Vector2(1, 0)
+	get_parent().add_child(bullet)
+	print("fire!")
 
 func _on_hurt_duration_timeout() -> void:
 	print("hurt duration finished")

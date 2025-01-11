@@ -152,7 +152,7 @@ shape = SubResource("RectangleShape2D_3xjr1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
 sprite_frames = SubResource("SpriteFrames_tslwn")
-animation = &"hurt"
+animation = &"walk"
 
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
 offset = Vector2(0, -40)
