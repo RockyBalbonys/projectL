@@ -5,6 +5,7 @@ var gravity = 700
 var damage = 10
 var hp = 50
 
+
 enum enemy_state {
 	idle,
 	patrol
@@ -43,3 +44,13 @@ func handle_patrol():
 	if $PatrolRay.is_colliding():
 		$AnimatedSprite2D.flip_h = !$AnimatedSprite2D.flip_h  # Toggle horizontal flip
 		velocity.x *= -1  # Reverse movement direction
+
+func die():
+	queue_free()
+
+func _on_hurtbox_body_entered(bullet) -> void:
+	hp -= bullet.damage
+	if hp <= 0:
+		die()
+	bullet.queue_free()
+	print(hp)
