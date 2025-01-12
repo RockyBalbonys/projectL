@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bqneglmxrnkxb"]
+[gd_scene load_steps=22 format=3 uid="uid://bqneglmxrnkxb"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_0paou"]
 [ext_resource type="Texture2D" uid="uid://b7w6m2ylkhf60" path="res://textures/player/Player_Sprite_Sheet.png" id="2_ylbwn"]
@@ -26,13 +26,21 @@ region = Rect2(0, 256, 64, 64)
 atlas = ExtResource("2_ylbwn")
 region = Rect2(320, 64, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lverb"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_rxwst"]
+atlas = ExtResource("2_ylbwn")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mbupl"]
+atlas = ExtResource("2_ylbwn")
+region = Rect2(448, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jbxsm"]
 atlas = ExtResource("2_ylbwn")
 region = Rect2(256, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_4qpj4"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_5kb5i"]
 atlas = ExtResource("2_ylbwn")
-region = Rect2(320, 0, 64, 64)
+region = Rect2(512, 128, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_87qr5"]
 atlas = ExtResource("2_ylbwn")
@@ -91,14 +99,20 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lverb")
+"texture": SubResource("AtlasTexture_rxwst")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_4qpj4")
+"texture": SubResource("AtlasTexture_mbupl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jbxsm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5kb5i")
 }],
 "loop": true,
 "name": &"hurt",
-"speed": 5.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -152,7 +166,8 @@ shape = SubResource("RectangleShape2D_3xjr1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
 sprite_frames = SubResource("SpriteFrames_tslwn")
-animation = &"walk"
+animation = &"hurt"
+frame_progress = 0.376164
 
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
 offset = Vector2(0, -40)

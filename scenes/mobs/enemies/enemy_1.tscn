@@ -61,4 +61,8 @@ position = Vector2(0.25, 0)
 shape = SubResource("RectangleShape2D_jvmsa")
 debug_color = Color(0.812962, 0.406946, 0.115236, 0.42)
 
+[node name="PatrolRay2" type="RayCast2D" parent="enemy1"]
+position = Vector2(-16, 0)
+target_position = Vector2(0, 15)
+
 [connection signal="body_entered" from="enemy1/Hurtbox" to="enemy1" method="_on_hurtbox_body_entered"]

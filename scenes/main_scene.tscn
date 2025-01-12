@@ -10,5 +10,13 @@
 
 [node name="Tilemap" parent="." instance=ExtResource("2_i7dqt")]
 
-[node name="enemy1" parent="." instance=ExtResource("3_10oy0")]
+[node name="enemies" type="Node" parent="."]
+
+[node name="enemy1" parent="enemies" instance=ExtResource("3_10oy0")]
 position = Vector2(255, 116)
+
+[node name="enemy2" parent="enemies" instance=ExtResource("3_10oy0")]
+position = Vector2(1473, 37)
+
+[node name="enemy3" parent="enemies" instance=ExtResource("3_10oy0")]
+position = Vector2(535, 44)
