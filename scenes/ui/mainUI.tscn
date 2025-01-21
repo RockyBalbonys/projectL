@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://04vy4qrfud1r"]
+
+[ext_resource type="PackedScene" uid="uid://dxhlous2knuiw" path="res://scenes/ui/main.tscn" id="1_psx36"]
+
+[node name="UI" type="CanvasLayer"]
+
+[node name="Main" parent="." instance=ExtResource("1_psx36")]
+offset_left = 43.0
+offset_top = 40.0
+offset_right = 43.0
+offset_bottom = 40.0

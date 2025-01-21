@@ -1,7 +1,8 @@
-[gd_scene load_steps=22 format=3 uid="uid://bqneglmxrnkxb"]
+[gd_scene load_steps=23 format=3 uid="uid://bqneglmxrnkxb"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_0paou"]
 [ext_resource type="Texture2D" uid="uid://b7w6m2ylkhf60" path="res://textures/player/Player_Sprite_Sheet.png" id="2_ylbwn"]
+[ext_resource type="PackedScene" uid="uid://04vy4qrfud1r" path="res://scenes/ui/mainUI.tscn" id="3_iq1t6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3xjr1"]
 size = Vector2(31, 33)
@@ -160,6 +161,12 @@ size = Vector2(23, 26)
 collision_layer = 2
 script = ExtResource("1_0paou")
 
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+offset = Vector2(0, -40)
+zoom = Vector2(2, 2)
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+
 [node name="PlayerCollision" type="CollisionShape2D" parent="CharacterBody2D"]
 position = Vector2(-0.5, -0.5)
 shape = SubResource("RectangleShape2D_3xjr1")
@@ -167,12 +174,7 @@ shape = SubResource("RectangleShape2D_3xjr1")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
 sprite_frames = SubResource("SpriteFrames_tslwn")
 animation = &"hurt"
-frame_progress = 0.376164
-
-[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
-offset = Vector2(0, -40)
-zoom = Vector2(1.5, 1.5)
-position_smoothing_enabled = true
+frame_progress = 0.174466
 
 [node name="DashDuration" type="Timer" parent="CharacterBody2D"]
 wait_time = 0.3
@@ -195,6 +197,8 @@ one_shot = true
 
 [node name="InvincibilityDuration" type="Timer" parent="CharacterBody2D"]
 one_shot = true
+
+[node name="UI" parent="." instance=ExtResource("3_iq1t6")]
 
 [connection signal="timeout" from="CharacterBody2D/DashDuration" to="CharacterBody2D" method="_on_dash_duration_timeout"]
 [connection signal="timeout" from="CharacterBody2D/DashCooldown" to="CharacterBody2D" method="_on_dash_cooldown_timeout"]

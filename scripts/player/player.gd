@@ -55,9 +55,10 @@ func _physics_process(delta: float) -> void:
 func handle_idle():
 	$AnimatedSprite2D.play("idle")
 	velocity.x = 0  # Stop horizontal movement
+	gravity = 700
 	if Input.is_action_pressed("right") or Input.is_action_pressed("left"):
 		current_state = player_state.walk
-	elif Input.is_action_pressed("jump") and is_on_floor():
+	elif Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = jump_force  # Apply jump force
 		current_state = player_state.jump
 	elif Input.is_action_pressed("dash"):
@@ -81,6 +82,8 @@ func handle_walk():
 			current_state = player_state.dash
 		else:
 			pass
+	if velocity.y > 0:
+		current_state = player_state.fall
 
 	if direction < 0:  # Moving left
 		$AnimatedSprite2D.flip_h = true
@@ -99,6 +102,7 @@ func handle_jump():
 # Fall state behavior
 func handle_fall():
 	$AnimatedSprite2D.play("fall")
+	gravity = 1500
 	handle_air_movement()
 	if is_on_floor():  # Transition back to idle when landing
 		current_state = player_state.idle
@@ -111,13 +115,20 @@ func handle_air_movement():
 		$AnimatedSprite2D.flip_h = true
 	elif direction > 0:  # Moving right
 		$AnimatedSprite2D.flip_h = false
-	
+		
+	if velocity.y > 0:  # If moving downward
+		current_state = player_state.fall
+		
 	if Input.is_action_pressed("dash"):
-		current_state = player_state.dash
+		if can_dash:
+			current_state = player_state.dash
+		else:
+			pass
 
 func handle_dash():
-	$AnimatedSprite2D.play("dash")
 	velocity.y = 0
+	print("dashing")
+	$AnimatedSprite2D.play("dash")
 	if $DashDuration.is_stopped():
 		$DashDuration.start(0.3)
 	if $AnimatedSprite2D.flip_h:
@@ -139,7 +150,7 @@ func _on_dash_duration_timeout() -> void:
 		print("Dash timer finished")  # Logs when the timer ends
 		current_state = player_state.idle
 	can_dash = false
-	$DashCooldown.start(3)
+	$DashCooldown.start(0.75)
 
 
 func _on_dash_cooldown_timeout() -> void:
@@ -185,3 +196,9 @@ func _on_hurt_duration_timeout() -> void:
 func _on_invincibility_duration_timeout() -> void:
 	is_invincible = false
 	print("invincibility finished")
+
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_released("jump"):
+		if velocity.y < 0:
+			velocity.y *= 0.7
+	
