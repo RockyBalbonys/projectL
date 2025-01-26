@@ -1,0 +1,70 @@
+[gd_scene load_steps=8 format=3 uid="uid://d1qq43xjnj3rr"]
+
+[ext_resource type="Script" path="res://scenes/mobs/enemies/ducky.gd" id="1_76xye"]
+[ext_resource type="Texture2D" uid="uid://cc5lu3kv8u6sv" path="res://textures/mobs/enemies/sample_enemy1.png" id="2_pnbtq"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jpqs5"]
+radius = 7.0
+height = 24.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vlsjo"]
+atlas = ExtResource("2_pnbtq")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_83dsh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vlsjo")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jilqo"]
+size = Vector2(12, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2rtc0"]
+size = Vector2(22, 24)
+
+[node name="Ducky" type="CharacterBody2D"]
+collision_layer = 4
+script = ExtResource("1_76xye")
+hp = 50
+damage = 10
+gravity = 700
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+scale = Vector2(1.19463, 0.97)
+shape = SubResource("CapsuleShape2D_jpqs5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -5)
+sprite_frames = SubResource("SpriteFrames_83dsh")
+
+[node name="PatrolRay" type="RayCast2D" parent="."]
+target_position = Vector2(-14, 0)
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_jilqo")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_2rtc0")
+debug_color = Color(0.670906, 0.0603165, 0.224129, 0.42)
+
+[node name="PatrolRay2" type="RayCast2D" parent="."]
+position = Vector2(-10, 0)
+target_position = Vector2(0, 19)
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]

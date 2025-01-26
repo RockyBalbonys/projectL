@@ -1,15 +1,11 @@
-extends CharacterBody2D
-
-var speed = 50
-var gravity = 700
-var damage = 10
-var hp = 50
-
+extends enemies
+class_name patrol_enemies
 
 enum enemy_state {
 	idle,
 	patrol
 }
+
 
 var current_state = enemy_state.idle
 
@@ -24,9 +20,6 @@ func _process(delta: float) -> void:
 		velocity.y += gravity * delta
 
 	move_and_slide()
-	print($PatrolRay.is_colliding())
-	print($PatrolRay2.is_colliding())
-
 
 func handle_idle():
 	if is_on_floor():
@@ -55,10 +48,3 @@ func handle_patrol():
 
 func die():
 	queue_free()
-
-func _on_hurtbox_body_entered(bullet) -> void:
-	hp -= bullet.damage
-	if hp <= 0:
-		die()
-	bullet.queue_free()
-	print(hp)
