@@ -5,7 +5,7 @@ func _ready() -> void:
 	super()
 	print("hi im ducky")
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	super(delta)
 
 func _on_hurtbox_area_entered(area: Area2D) -> void:

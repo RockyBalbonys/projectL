@@ -9,7 +9,7 @@ enum enemy_state {
 
 var current_state = enemy_state.idle
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	match current_state:
 			enemy_state.idle:
 				handle_idle()
@@ -29,12 +29,12 @@ func handle_idle():
 func handle_patrol():
 	#$AnimatedSprite2D.flip_h = false = facing left
 	if $AnimatedSprite2D.flip_h:
-		velocity.x = speed
+		velocity.x = speed 
 		$PatrolRay.target_position = Vector2(10.0, 0)
 		$PatrolRay2.position = Vector2(10.0,0)
 		$PatrolRay2.target_position = Vector2(0, 15.0)
 	else:
-		velocity.x = -speed
+		velocity.x = -speed 
 		$PatrolRay.target_position = Vector2(-10.0, 0)
 		$PatrolRay2.position = Vector2(-10.0,0)
 		$PatrolRay2.target_position = Vector2(0, 15.0)
