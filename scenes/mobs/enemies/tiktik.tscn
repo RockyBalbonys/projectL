@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://c7injogl13imb"]
+
+[ext_resource type="Texture2D" uid="uid://bi4bm21d6sr08" path="res://textures/mobs/enemies/tiktik_base.png" id="1_m4p51"]
+[ext_resource type="Script" path="res://scenes/mobs/enemies/tiktik.gd" id="1_y64r2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_30qke"]
+size = Vector2(39, 25)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v3iw7"]
+
+[node name="Tiktik" type="CharacterBody2D"]
+collision_layer = 4
+script = ExtResource("1_y64r2")
+vision_range = 200
+attack_range = 100.0
+hp = 50
+damage = 10
+speed = 20
+gravity = 700
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_m4p51")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-5.5, 11.5)
+shape = SubResource("RectangleShape2D_30qke")
+
+[node name="VisionRange" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VisionRange"]
+position = Vector2(-5, 12)
+shape = SubResource("CircleShape2D_v3iw7")
+debug_color = Color(0.483921, 0.577984, 0.286107, 0.42)

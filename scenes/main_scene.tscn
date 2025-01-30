@@ -1,22 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://cusu357g48mo4"]
+[gd_scene load_steps=5 format=3 uid="uid://cusu357g48mo4"]
 
 [ext_resource type="PackedScene" uid="uid://bqneglmxrnkxb" path="res://scenes/player.tscn" id="2_4ynb5"]
 [ext_resource type="PackedScene" uid="uid://c0tfc7tjjtq3a" path="res://scenes/tilemap.tscn" id="2_i7dqt"]
-[ext_resource type="PackedScene" uid="uid://dy7tcvfyuefqj" path="res://scenes/mobs/enemies/enemy_1.tscn" id="3_10oy0"]
+[ext_resource type="PackedScene" uid="uid://d1qq43xjnj3rr" path="res://scenes/mobs/enemies/ducky.tscn" id="4_d2bpx"]
+[ext_resource type="PackedScene" uid="uid://c7injogl13imb" path="res://scenes/mobs/enemies/tiktik.tscn" id="4_t0aqa"]
 
 [node name="Scene" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("2_4ynb5")]
+position = Vector2(157, 60)
 
 [node name="Tilemap" parent="." instance=ExtResource("2_i7dqt")]
 
-[node name="enemies" type="Node" parent="."]
+[node name="enemies" type="Node2D" parent="."]
 
-[node name="enemy1" parent="enemies" instance=ExtResource("3_10oy0")]
-position = Vector2(255, 116)
+[node name="Ducky" parent="enemies" instance=ExtResource("4_d2bpx")]
+position = Vector2(379, 6)
 
-[node name="enemy2" parent="enemies" instance=ExtResource("3_10oy0")]
-position = Vector2(1473, 37)
-
-[node name="enemy3" parent="enemies" instance=ExtResource("3_10oy0")]
-position = Vector2(535, 44)
+[node name="Tiktik" parent="enemies" instance=ExtResource("4_t0aqa")]
