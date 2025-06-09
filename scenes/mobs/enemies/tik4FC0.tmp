@@ -70,15 +70,6 @@ animations = [{
 "texture": SubResource("AtlasTexture_ufi4q")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ufi4q")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ufi4q")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ufi4q")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_7bf8g")
 }, {
 "duration": 1.0,
@@ -138,7 +129,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_30qke"]
 size = Vector2(39, 25)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ittcb"]
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_r05ve"]
+a = Vector2(150, 0)
+b = Vector2(-150, 0)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fconw"]
 size = Vector2(35, 20)
@@ -170,12 +163,13 @@ collision_layer = 32
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="VisionRange"]
-shape = SubResource("CircleShape2D_ittcb")
-debug_color = Color(0.39165, 0.608962, 0.130718, 0.42)
+position = Vector2(-5, 13)
+shape = SubResource("SegmentShape2D_r05ve")
+debug_color = Color(0.483921, 0.577984, 0.286107, 0.42)
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 16
-collision_mask = 8
+collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 position = Vector2(-5.5, 12)
@@ -196,9 +190,8 @@ debug_color = Color(0.937641, 1.4728e-05, 0.62711, 0.42)
 
 [node name="FrontVision" type="RayCast2D" parent="."]
 position = Vector2(0, 12)
-target_position = Vector2(-69, 0)
+target_position = Vector2(-79, 0)
 collision_mask = 2
 
-[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]

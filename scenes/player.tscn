@@ -8,21 +8,21 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3xjr1"]
 size = Vector2(31, 33)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qcgb5"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_piy8j"]
 atlas = ExtResource("3_tgmqb")
 region = Rect2(0, 192, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_tjyj4"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_cbh73"]
 atlas = ExtResource("3_tgmqb")
-region = Rect2(64, 192, 64, 64)
+region = Rect2(65, 192, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7116y"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_66il7"]
 atlas = ExtResource("3_tgmqb")
-region = Rect2(128, 192, 64, 64)
+region = Rect2(130, 192, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_h3ch3"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_hsor6"]
 atlas = ExtResource("3_tgmqb")
-region = Rect2(192, 192, 64, 64)
+region = Rect2(195, 192, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_43jl5"]
 atlas = ExtResource("3_tgmqb")
@@ -104,16 +104,16 @@ region = Rect2(384, 64, 64, 64)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qcgb5")
+"texture": SubResource("AtlasTexture_piy8j")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_tjyj4")
+"texture": SubResource("AtlasTexture_cbh73")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_7116y")
+"texture": SubResource("AtlasTexture_66il7")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_h3ch3")
+"texture": SubResource("AtlasTexture_hsor6")
 }],
 "loop": false,
 "name": &"attack1",
@@ -232,8 +232,8 @@ shape = SubResource("RectangleShape2D_3xjr1")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
 sprite_frames = SubResource("SpriteFrames_tslwn")
 animation = &"attack1"
-frame = 3
-frame_progress = 1.0
+frame = 1
+frame_progress = 0.65563
 
 [node name="DashDuration" type="Timer" parent="CharacterBody2D"]
 wait_time = 0.3
@@ -244,7 +244,7 @@ one_shot = true
 
 [node name="Hurtbox" type="Area2D" parent="CharacterBody2D"]
 collision_layer = 2
-collision_mask = 4
+collision_mask = 68
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/Hurtbox"]
 position = Vector2(0, -1)
@@ -259,7 +259,7 @@ one_shot = true
 
 [node name="Hitbox" type="Area2D" parent="CharacterBody2D"]
 collision_layer = 8
-collision_mask = 4
+collision_mask = 16
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/Hitbox"]

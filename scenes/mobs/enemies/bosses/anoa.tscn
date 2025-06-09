@@ -1,0 +1,105 @@
+[gd_scene load_steps=10 format=3 uid="uid://dcbuqbx7so5y"]
+
+[ext_resource type="Script" path="res://scripts/mobs/bosses/anoa.gd" id="1_abwdq"]
+[ext_resource type="Texture2D" uid="uid://tfnoxc2w8xp8" path="res://textures/mobs/enemies/anoa/raja anoa.png" id="1_k3bi2"]
+[ext_resource type="Texture2D" uid="uid://d0hcye2sxmu3d" path="res://textures/mobs/enemies/anoa/raja anoa2.png" id="2_t3r23"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_er86v"]
+atlas = ExtResource("2_t3r23")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_56ohv"]
+atlas = ExtResource("1_k3bi2")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_crh47"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_er86v")
+}],
+"loop": true,
+"name": &"attack1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_56ohv")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_76yxq"]
+size = Vector2(30, 97)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_12qf3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yvrqn"]
+size = Vector2(45, 69)
+
+[node name="anoa" type="CharacterBody2D"]
+z_index = -1
+collision_layer = 4
+script = ExtResource("1_abwdq")
+vision_range = 500.0
+hp = 1000
+speed = 50
+gravity = 700
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_crh47")
+animation = &"attack1"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_76yxq")
+
+[node name="VisionRange" type="Area2D" parent="."]
+position = Vector2(-7, 156)
+collision_layer = 32
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VisionRange"]
+position = Vector2(7, -156)
+shape = SubResource("CircleShape2D_12qf3")
+debug_color = Color(0.469457, 0.582528, 0.283971, 0.42)
+
+[node name="Attacks" type="Node2D" parent="."]
+
+[node name="Attack1" type="Area2D" parent="Attacks"]
+collision_layer = 64
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attacks/Attack1"]
+position = Vector2(-32.5, 12.5)
+shape = SubResource("RectangleShape2D_yvrqn")
+disabled = true
+debug_color = Color(0.923577, 0.249374, 0.309007, 0.42)
+
+[node name="Attack2" type="Area2D" parent="Attacks"]
+collision_layer = 64
+collision_mask = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Attacks/Attack2"]
+position = Vector2(-61, -48)
+polygon = PackedVector2Array(4, -9, 143, 85, 67, 93, -25, 43, -32, -12)
+disabled = true
+
+[node name="Attack1Duration" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="Attack1Cooldown" type="Timer" parent="."]
+
+[node name="Attack2Duration" type="Timer" parent="."]
+
+[node name="Attack2Cooldown" type="Timer" parent="."]
+
+[node name="NextAttackTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Attack1Duration" to="." method="_on_attack_1_duration_timeout"]
+[connection signal="timeout" from="Attack1Cooldown" to="." method="_on_attack_1_cooldown_timeout"]
+[connection signal="timeout" from="Attack2Duration" to="." method="_on_attack_2_duration_timeout"]
+[connection signal="timeout" from="Attack2Cooldown" to="." method="_on_attack_2_cooldown_timeout"]
+[connection signal="timeout" from="NextAttackTimer" to="." method="_on_next_attack_timer_timeout"]

@@ -116,7 +116,6 @@ func handle_jump():
 		current_state = player_state.fall
 
 func handle_doublejump():
-	print("double jumped!")
 	var direction = Input.get_axis("left", "right")  # -1 for left, 1 for right
 	$AnimatedSprite2D.play("jump")
 	handle_air_movement()
@@ -160,19 +159,24 @@ func handle_air_movement():
 
 func handle_attack():
 	$AnimatedSprite2D.play("attack1")
-	$Hitbox.monitoring = true
-	$Hitbox/CollisionShape2D.disabled = false
+	if $AnimatedSprite2D.animation == "attack1":
+		if $AnimatedSprite2D.frame == 2 and 3:
+			$Hitbox/CollisionShape2D.disabled = false
+		else:
+			$Hitbox/CollisionShape2D.disabled = true
 
 func handle_air_attack():
 	$AnimatedSprite2D.play("attack1")
-	$Hitbox.monitoring = true
-	$Hitbox/CollisionShape2D.disabled = false
+	if $AnimatedSprite2D.animation == "attack1":
+		if $AnimatedSprite2D.frame == 2 and 3:
+			$Hitbox/CollisionShape2D.disabled = false
+		else:
+			$Hitbox/CollisionShape2D.disabled = true
 	
 
 func _on_animated_sprite_2d_animation_finished() -> void:
-	$Hitbox.monitoring = false
-	$Hitbox/CollisionShape2D.disabled = true
 	current_state = player_state.idle
+	$Hitbox/CollisionShape2D.disabled = true
 
 func handle_dash():
 	velocity.y = 0
@@ -190,30 +194,29 @@ func handle_hurt():
 		velocity.x = 0
 		$AnimatedSprite2D.play("hurt")
 		$HurtDuration.start(1)
-		print("hurt duration starts")
 
 
 func _on_dash_duration_timeout() -> void:
 	if !is_hurt:
-		print("Dash timer finished")  # Logs when the timer ends
+		#print("Dash timer finished")  # Logs when the timer ends
 		current_state = player_state.idle
 	can_dash = false
 	$DashCooldown.start(0.75)
 
 
 func _on_dash_cooldown_timeout() -> void:
-	print("dash cooldowned")
 	can_dash = true
 
 
 func _on_hurtbox_area_entered(hurtbox) -> void:
-	var damage_amount = hurtbox.get_parent().damage
+	#print(hurtbox.name)
+	var damage_amount = hurtbox.get_owner().damage
 	if !is_invincible:
 		if stats["max_hp"] <= 0:
 			die()
 		else:
 			stats["max_hp"] -= damage_amount
-			print(stats["max_hp"])
+			#print(stats["max_hp"])
 			current_state = player_state.hurt
 	else:
 		pass
@@ -222,7 +225,7 @@ func die():
 	queue_free()
 
 func _on_hurt_duration_timeout() -> void:
-	print("hurt duration finished")
+	#print("hurt duration finished")
 	is_hurt = false
 	is_invincible = true
 	current_state = player_state.idle
@@ -231,7 +234,7 @@ func _on_hurt_duration_timeout() -> void:
 
 func _on_invincibility_duration_timeout() -> void:
 	is_invincible = false
-	print("invincibility finished")
+	#print("invincibility finished")
 
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_released("jump"):

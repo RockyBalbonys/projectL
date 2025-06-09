@@ -1,0 +1,63 @@
+[gd_scene load_steps=7 format=3 uid="uid://c7injogl13imb"]
+
+[ext_resource type="Texture2D" uid="uid://bi4bm21d6sr08" path="res://textures/mobs/enemies/tiktik_base.png" id="1_m4p51"]
+[ext_resource type="Script" path="res://scenes/mobs/enemies/tiktik.gd" id="1_y64r2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_30qke"]
+size = Vector2(39, 25)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_r05ve"]
+a = Vector2(150, 0)
+b = Vector2(-150, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fconw"]
+size = Vector2(35, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_na3lc"]
+size = Vector2(64, 11)
+
+[node name="Tiktik" type="CharacterBody2D"]
+collision_layer = 4
+script = ExtResource("1_y64r2")
+vision_range = 200
+attack_range = 100.0
+hp = 50
+damage = 10
+speed = 20
+gravity = 700
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_m4p51")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-5.5, 11.5)
+shape = SubResource("RectangleShape2D_30qke")
+
+[node name="VisionRange" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VisionRange"]
+position = Vector2(-5, 13)
+shape = SubResource("SegmentShape2D_r05ve")
+debug_color = Color(0.483921, 0.577984, 0.286107, 0.42)
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(-5.5, 12)
+shape = SubResource("RectangleShape2D_fconw")
+debug_color = Color(0.851678, 0.365495, 0.176441, 0.42)
+
+[node name="Attack1" type="Area2D" parent="."]
+collision_layer = 64
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack1"]
+position = Vector2(-40, 12)
+shape = SubResource("RectangleShape2D_na3lc")
+debug_color = Color(0.874348, 0.323057, 0.32906, 0.42)
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
