@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://dcbuqbx7so5y"]
+
+[ext_resource type="Script" path="res://scripts/mobs/bosses/anoa.gd" id="1_abwdq"]
+[ext_resource type="Texture2D" uid="uid://tfnoxc2w8xp8" path="res://textures/mobs/enemies/anoa/raja anoa.png" id="1_k3bi2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_76yxq"]
+size = Vector2(29, 98)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3fge7"]
+size = Vector2(1007.25, 416.75)
+
+[node name="anoa" type="CharacterBody2D"]
+z_index = -1
+collision_layer = 4
+script = ExtResource("1_abwdq")
+hp = 1000
+damage = 100
+speed = 30
+gravity = 700
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_k3bi2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(5.5, -1)
+shape = SubResource("RectangleShape2D_76yxq")
+
+[node name="VisionRange" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VisionRange"]
+position = Vector2(7, -156)
+shape = SubResource("RectangleShape2D_3fge7")
+debug_color = Color(0.469457, 0.582528, 0.283971, 0.42)

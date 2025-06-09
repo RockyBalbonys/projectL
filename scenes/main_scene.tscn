@@ -1,20 +1,25 @@
-[gd_scene load_steps=5 format=3 uid="uid://cusu357g48mo4"]
+[gd_scene load_steps=6 format=3 uid="uid://cusu357g48mo4"]
 
 [ext_resource type="PackedScene" uid="uid://bqneglmxrnkxb" path="res://scenes/player.tscn" id="2_4ynb5"]
 [ext_resource type="PackedScene" uid="uid://c0tfc7tjjtq3a" path="res://scenes/tilemap.tscn" id="2_i7dqt"]
-[ext_resource type="PackedScene" uid="uid://d1qq43xjnj3rr" path="res://scenes/mobs/enemies/ducky.tscn" id="4_d2bpx"]
-[ext_resource type="PackedScene" uid="uid://c7injogl13imb" path="res://scenes/mobs/enemies/tiktik.tscn" id="4_t0aqa"]
+[ext_resource type="PackedScene" uid="uid://dcbuqbx7so5y" path="res://scenes/mobs/enemies/bosses/anoa.tscn" id="3_qchrm"]
+[ext_resource type="PackedScene" uid="uid://igst7r0d7tp3" path="res://scenes/mobs/enemies/amalanhig.tscn" id="4_muxt7"]
+[ext_resource type="PackedScene" uid="uid://c7injogl13imb" path="res://scenes/mobs/enemies/tiktik.tscn" id="5_6grd4"]
 
 [node name="Scene" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("2_4ynb5")]
-position = Vector2(157, 60)
+position = Vector2(-309, 52)
 
 [node name="Tilemap" parent="." instance=ExtResource("2_i7dqt")]
 
 [node name="enemies" type="Node2D" parent="."]
 
-[node name="Ducky" parent="enemies" instance=ExtResource("4_d2bpx")]
-position = Vector2(379, 6)
+[node name="anoa" parent="enemies" instance=ExtResource("3_qchrm")]
+position = Vector2(-10, 30)
 
-[node name="Tiktik" parent="enemies" instance=ExtResource("4_t0aqa")]
+[node name="amalanhig" parent="enemies" instance=ExtResource("4_muxt7")]
+position = Vector2(343, 40)
+
+[node name="Tiktik" parent="enemies" instance=ExtResource("5_6grd4")]
+position = Vector2(733, 73)

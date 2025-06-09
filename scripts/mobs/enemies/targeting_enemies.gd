@@ -17,6 +17,10 @@ var player:Node2D = null
 var timer: Timer
 var wait_time:float = randomize_wait_time()
 var roam_time = 2
+var is_attacking:bool = false
+var can_attack:bool = true
+var attack_cooldown_duration: float = 4.0
+var player_detected: bool = false
 @export var attack_range:float
 
 func _ready() -> void:
@@ -36,10 +40,9 @@ func _physics_process(delta: float) -> void:
 	if !is_on_floor():
 		velocity.y += gravity * delta
 	if direction == 1:
-		$Sprite2D.flip_h = true
+		$AnimatedSprite2D.flip_h = true
 	elif direction == -1:
-		$Sprite2D.flip_h = false
-
+		$AnimatedSprite2D.flip_h = false
 	move_and_slide()
 	
 	match current_state:
@@ -53,10 +56,12 @@ func _physics_process(delta: float) -> void:
 			handle_attack()
 func handle_idle():
 	velocity.x = 0
+	$AnimatedSprite2D.play("idle")
 	if timer.is_stopped():
 		wait_timer_start()
 
 func handle_roam():
+	$AnimatedSprite2D.play("walking")
 	if timer.is_stopped():
 		roam_timer_start()
 	if direction == 1:
@@ -66,15 +71,25 @@ func handle_roam():
 
 func handle_approach():
 	if player:
-		direction = sign(player.global_position.x - global_position.x)
 		range_to_player = abs(player.global_position.x - global_position.x)
-		print(range_to_player)
+		direction = sign(player.global_position.x - global_position.x)
 		velocity.x = direction * speed
-		if range_to_player <= attack_range:
-			current_state = enemy_state.attack
+		print("range_to_player: ", range_to_player)
+		$AnimatedSprite2D.play("walking")
+		if range_to_player < 82:
+			$AnimatedSprite2D.play("idle")
+			velocity.x = 0
+	else:
+		current_state = enemy_state.idle
 
+	if $FrontVision.is_colliding():
+		player_detected = true
+		current_state = enemy_state.attack
+	#else:
+		#current_state = enemy_state.approach
+		
 func handle_attack():
-	print("attacking!!!!")
+	pass
 
 func _on_player_detected(body: Node2D):
 	player = body
@@ -85,7 +100,7 @@ func randomize_wait_time():
 	return wait_time
 	
 func _on_player_lost(body: Node2D):
-	current_state = enemy_state.idle
+	player = null
 
 func _on_timer_timeout():
 	if current_state == enemy_state.idle:

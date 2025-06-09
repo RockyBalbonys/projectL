@@ -1,0 +1,107 @@
+[gd_scene load_steps=14 format=3 uid="uid://igst7r0d7tp3"]
+
+[ext_resource type="Script" path="res://scenes/mobs/enemies/amalanhig.gd" id="1_5dtcb"]
+[ext_resource type="Texture2D" uid="uid://ba0pvtn2fuoyq" path="res://textures/mobs/enemies/amalanhig/amalanhigSpritesheet.png" id="2_lec8p"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1beup"]
+size = Vector2(22, 30.5)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l3trc"]
+atlas = ExtResource("2_lec8p")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ueog"]
+atlas = ExtResource("2_lec8p")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_el3f6"]
+atlas = ExtResource("2_lec8p")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ifcij"]
+atlas = ExtResource("2_lec8p")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q7boc"]
+atlas = ExtResource("2_lec8p")
+region = Rect2(256, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dvq6n"]
+atlas = ExtResource("2_lec8p")
+region = Rect2(320, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_204r4"]
+atlas = ExtResource("2_lec8p")
+region = Rect2(384, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p5rmg"]
+atlas = ExtResource("2_lec8p")
+region = Rect2(448, 64, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4uek1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l3trc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ueog")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_el3f6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ifcij")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q7boc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dvq6n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_204r4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p5rmg")
+}],
+"loop": true,
+"name": &"patrol",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hjhms"]
+
+[node name="amalanhig" type="CharacterBody2D"]
+collision_layer = 4
+script = ExtResource("1_5dtcb")
+hp = 20
+damage = 5
+speed = 5
+gravity = 700
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3, 0.75)
+shape = SubResource("RectangleShape2D_1beup")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_4uek1")
+animation = &"patrol"
+
+[node name="PatrolRay" type="RayCast2D" parent="."]
+target_position = Vector2(-20, 0)
+
+[node name="PatrolRay2" type="RayCast2D" parent="."]
+position = Vector2(-20, 0)
+target_position = Vector2(0, 20)
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(3, 0)
+shape = SubResource("RectangleShape2D_hjhms")
+debug_color = Color(0.886621, 0.294612, 0.39376, 0.42)
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]

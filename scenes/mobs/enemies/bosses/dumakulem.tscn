@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://crs73y3rmeedx"]
+
+[ext_resource type="Script" path="res://textures/mobs/enemies/dumakulem/dumakulem.gd" id="1_ot17c"]
+[ext_resource type="Texture2D" uid="uid://d1vxcql4acacd" path="res://textures/mobs/enemies/dumakulem/dumakulem_sample.png" id="2_fvd8r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7palh"]
+size = Vector2(51, 172)
+
+[node name="dumakulem" type="CharacterBody2D"]
+script = ExtResource("1_ot17c")
+hp = 1000
+damage = 50
+speed = 40
+gravity = 700
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_fvd8r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-8.5, 13)
+shape = SubResource("RectangleShape2D_7palh")

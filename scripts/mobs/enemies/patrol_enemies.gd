@@ -28,16 +28,17 @@ func handle_idle():
 
 func handle_patrol():
 	#$AnimatedSprite2D.flip_h = false = facing left
+	$AnimatedSprite2D.play("patrol")
 	if $AnimatedSprite2D.flip_h:
 		velocity.x = speed 
-		$PatrolRay.target_position = Vector2(10.0, 0)
-		$PatrolRay2.position = Vector2(10.0,0)
-		$PatrolRay2.target_position = Vector2(0, 15.0)
+		$PatrolRay.target_position = Vector2(20.0, 0)
+		$PatrolRay2.position = Vector2(20.0,0)
+		$PatrolRay2.target_position = Vector2(0, 20.0)
 	else:
 		velocity.x = -speed 
-		$PatrolRay.target_position = Vector2(-10.0, 0)
-		$PatrolRay2.position = Vector2(-10.0,0)
-		$PatrolRay2.target_position = Vector2(0, 15.0)
+		$PatrolRay.target_position = Vector2(-20.0, 0)
+		$PatrolRay2.position = Vector2(-20.0,0)
+		$PatrolRay2.target_position = Vector2(0, 20.0)
 		
 	if $PatrolRay.is_colliding():
 		$AnimatedSprite2D.flip_h = !$AnimatedSprite2D.flip_h  # Toggle horizontal flip
